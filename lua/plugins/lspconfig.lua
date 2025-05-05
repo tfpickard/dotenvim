@@ -7,6 +7,9 @@ return {
           -- stylua: ignore
           vim.keymap.set( "n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
         vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
+        -- Python specific keymaps
+        vim.keymap.set("n", "<leader>rf", ":PyrightOrganizeImports<CR>", { desc = "Organize Imports", buffer = buffer })
+        vim.keymap.set("n", "<leader>rr", ":PyrightRestart<CR>", { desc = "Restart Pyright", buffer = buffer })
       end)
     end,
   },
@@ -27,7 +30,20 @@ return {
         require("typescript").setup({ server = opts })
         return true
       end,
-      -- Specify * to use this function as a fallback for any server
+      -- example to setup with pyright
+      pyright = function(_, opts)
+        -- Customize pyright settings here
+        opts.settings = {
+          python = {
+            analysis = {
+              typeCheckingMode = "strict",
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+            },
+          },
+        }
+        return true
+      end,
       -- ["*"] = function(server, opts) end,
     },
   },
