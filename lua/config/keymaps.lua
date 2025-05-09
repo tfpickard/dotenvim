@@ -5,19 +5,28 @@
 -- vim.keymap.set({ "n", "v" }, "<LocalLeader>a", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
 -- vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
 local map = vim.keymap.set
-map({ "n", "v" }, "<C-a>", "<cmd>CodeCompanionActions<cr>", { desc = "CC Actions", noremap = true, silent = true })
 
+-- AI
+
+-- CodeCompanion
+map({ "n", "v" }, "<C-a>", "<cmd>CodeCompanionActions<cr>", { desc = "CC Actions", noremap = true, silent = true })
 map(
   { "n", "v" },
   "<LocalLeader>a",
   "<cmd>CodeCompanionChat Toggle<cr>",
   { desc = "CC Chat (toggle)", noremap = true, silent = true }
 )
-
 map("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { desc = "CC Chat (add visual)", noremap = true, silent = true })
+vim.cmd([[cab cc CodeCompanion]]) -- Expand 'cc' into 'CodeCompanion' in the command line
 
--- Expand 'cc' into 'CodeCompanion' in the command line
-vim.cmd([[cab cc CodeCompanion]])
+-- Aider
+-- map("n", "<leader>Ao", ":AiderOpen<CR>", { desc = "Open Aider", noremap = true, silent = true }) A
+-- map(
+--   "n",
+--   "<leader>Am",
+--   ":AiderAddModifiedFiles<CR>",
+--   { desc = "Add all git-modified files", noremap = true, silent = true }
+-- )
 
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
@@ -91,6 +100,7 @@ map("i", ";", ";<c-g>u")
 
 -- save file
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
+map({ "i", "x", "n", "s" }, "<C-q>", "<cmd>q<cr><esc>", { desc = "Quit" })
 
 --keywordprg
 map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
@@ -189,8 +199,10 @@ map({"n", "x" }, "<leader>gY", function()
   Snacks.gitbrowse({ open = function(url) vim.fn.setreg("+", url) end, notify = false })
 end, { desc = "Git Browse (copy)" })
 
--- quit
+-- quit 
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
+map("n", "<leader>wq", "<cmd>wqa<cr>", { desc = "Save and Quit All"})
+map("n", "<leader>q!", "<cmd>qa!<cr>", { desc = "Force Quit All"})
 
 -- highlights under cursor
 map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
