@@ -1,0 +1,65 @@
+-- lua/plugins/formatter-installer.lua
+return {}
+-- {
+--     {
+--         {
+--             name = "pathcheck",
+--             dir = "~/src/pathcheck.nvim/",
+--             lazy = false,
+--             config = function()
+--                 require("pathcheck").ensure_local_bin()
+--             end,
+--         },
+--     },
+--     {
+--         "stevearc/conform.nvim",
+--         opts = {
+--             formatters_by_ft = {
+--                 lua = { "stylua" },
+--                 python = { "black" },
+--                 c = { "clang_format" },
+--                 cpp = { "clang_format" },
+--                 sh = { "shfmt" },
+--                 json = { "jq" },
+--             },
+--         },
+--     },
+--     {
+--         "mfussenegger/nvim-lint",
+--         opts = {
+--             linters_by_ft = {
+--                 python = { "flake8" },
+--                 sh = { "shellcheck" },
+--                 lua = { "luacheck" },
+--                 c = { "clangtidy" },
+--                 cpp = { "clangtidy" },
+--             },
+--         },
+--     },
+--
+--     {
+--
+--         "williamboman/mason.nvim",
+--         config = function()
+--             local registry = require("mason-registry")
+--             local tools = {
+--                 "black",
+--                 "flake8",
+--                 "clang-format",
+--                 "clangtidy",
+--                 "luacheck",
+--                 "shfmt",
+--                 "shellcheck",
+--                 "stylua",
+--                 "jq",
+--             }
+--
+--             for _, tool in ipairs(tools) do
+--                 local p = registry.get_package(tool)
+--                 if not p:is_installed() then
+--                     p:install()
+--                 end
+--             end
+--         end,
+--     },
+-- }

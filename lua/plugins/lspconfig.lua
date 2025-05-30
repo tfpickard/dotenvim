@@ -2,8 +2,8 @@ return {
 
     {
         {
-            name = "pathcheck",
-            dir = "~/src/pathcheck.nvim/",
+            "tfpickard/pathcheck.nvim",
+            -- dir = "~/src/pathcheck.nvim/",
             lazy = false,
             config = function()
                 require("pathcheck").ensure_local_bin()
