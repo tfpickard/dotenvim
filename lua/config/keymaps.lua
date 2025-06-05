@@ -6,17 +6,29 @@
 -- vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
 local map = vim.keymap.set
 
+-- The most useful thing in the world: split a line and place the second half above the first half
+map("n", "<leader>kl", "d$O<Esc>p==", { desc = "Split Line Above" })
 -- AI
 
 -- CodeCompanion
-map({ "n", "v" }, "<C-a>", "<cmd>CodeCompanionActions<cr>", { desc = "CC Actions", noremap = true, silent = true })
 map(
-  { "n", "v" },
-  "<LocalLeader>a",
-  "<cmd>CodeCompanionChat Toggle<cr>",
-  { desc = "CC Chat (toggle)", noremap = true, silent = true }
+    { "n", "v" },
+    "<C-a>",
+    "<cmd>CodeCompanionActions<cr>",
+    { desc = "CC Actions", noremap = true, silent = true }
 )
-map("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { desc = "CC Chat (add visual)", noremap = true, silent = true })
+map(
+    { "n", "v" },
+    "<LocalLeader>a",
+    "<cmd>CodeCompanionChat Toggle<cr>",
+    { desc = "CC Chat (toggle)", noremap = true, silent = true }
+)
+map(
+    "v",
+    "ga",
+    "<cmd>CodeCompanionChat Add<cr>",
+    { desc = "CC Chat (add visual)", noremap = true, silent = true }
+)
 vim.cmd([[cab cc CodeCompanion]]) -- Expand 'cc' into 'CodeCompanion' in the command line
 
 -- Aider
@@ -30,7 +42,12 @@ vim.cmd([[cab cc CodeCompanion]]) -- Expand 'cc' into 'CodeCompanion' in the com
 
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
-map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+map(
+    { "n", "x" },
+    "<Down>",
+    "v:count == 0 ? 'gj' : 'j'",
+    { desc = "Down", expr = true, silent = true }
+)
 map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
@@ -62,27 +79,27 @@ map("n", "]b", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<leader>bd", function()
-  Snacks.bufdelete()
+    Snacks.bufdelete()
 end, { desc = "Delete Buffer" })
 map("n", "<leader>bo", function()
-  Snacks.bufdelete.other()
+    Snacks.bufdelete.other()
 end, { desc = "Delete Other Buffers" })
 map("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
 
 -- Clear search and stop snippet on escape
 map({ "i", "n", "s" }, "<esc>", function()
-  vim.cmd("noh")
-  LazyVim.cmp.actions.snippet_stop()
-  return "<esc>"
+    vim.cmd("noh")
+    LazyVim.cmp.actions.snippet_stop()
+    return "<esc>"
 end, { expr = true, desc = "Escape and Clear hlsearch" })
 
 -- Clear search, diff update and redraw
 -- taken from runtime/lua/_editor.lua
 map(
-  "n",
-  "<leader>ur",
-  "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
-  { desc = "Redraw / Clear hlsearch / Diff Update" }
+    "n",
+    "<leader>ur",
+    "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
+    { desc = "Redraw / Clear hlsearch / Diff Update" }
 )
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
@@ -121,18 +138,20 @@ map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
 
 -- location list
 map("n", "<leader>xl", function()
-  local success, err = pcall(vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 and vim.cmd.lclose or vim.cmd.lopen)
-  if not success and err then
-    vim.notify(err, vim.log.levels.ERROR)
-  end
+    local success, err =
+        pcall(vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 and vim.cmd.lclose or vim.cmd.lopen)
+    if not success and err then
+        vim.notify(err, vim.log.levels.ERROR)
+    end
 end, { desc = "Location List" })
 
 -- quickfix list
 map("n", "<leader>xq", function()
-  local success, err = pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
-  if not success and err then
-    vim.notify(err, vim.log.levels.ERROR)
-  end
+    local success, err =
+        pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
+    if not success and err then
+        vim.notify(err, vim.log.levels.ERROR)
+    end
 end, { desc = "Quickfix List" })
 
 map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
@@ -140,16 +159,16 @@ map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
 -- formatting
 map({ "n", "v" }, "<leader>cf", function()
-  LazyVim.format({ force = true })
+    LazyVim.format({ force = true })
 end, { desc = "Format" })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)
-  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-  severity = severity and vim.diagnostic.severity[severity] or nil
-  return function()
-    go({ severity = severity })
-  end
+    local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+    severity = severity and vim.diagnostic.severity[severity] or nil
+    return function()
+        go({ severity = severity })
+    end
 end
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
