@@ -3,6 +3,7 @@ return {
     {
         {
             "tfpickard/pathcheck.nvim",
+            enabled = false,
             -- dir = "~/src/pathcheck.nvim/",
             lazy = false,
             config = function()
