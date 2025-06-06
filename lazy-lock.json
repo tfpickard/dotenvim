@@ -6,6 +6,7 @@
   "aider.nvim": { "branch": "main", "commit": "1e5fc680a764d2b93f342005d7e4415fec469088" },
   "automkdir.nvim": { "branch": "main", "commit": "e36da288764cc41864dc5b4e1234f1425033ce59" },
   "avante.nvim": { "branch": "main", "commit": "b7a51842191d9a2b9df6d1c38a3e924244dd0a54" },
+  "better-escape.nvim": { "branch": "master", "commit": "19a38aab94961016430905ebec30d272a01e9742" },
   "bufferline.nvim": { "branch": "main", "commit": "655133c3b4c3e5e05ec549b9f8cc2894ac6f51b3" },
   "catppuccin": { "branch": "main", "commit": "a0c769bc7cd04bbbf258b3d5f01e2bdce744108d" },
   "clangd_extensions.nvim": { "branch": "main", "commit": "db28f29be928d18cbfb86fbfb9f83f584f658feb" },
