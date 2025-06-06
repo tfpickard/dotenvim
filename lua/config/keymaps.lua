@@ -6,6 +6,9 @@
 -- vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
 local map = vim.keymap.set
 
+-- Nerdy
+map("n", "<leader>ii", ":Nerdy<CR>", { desc = "Icon picker (nerdy)" })
+
 -- The most useful thing in the world: split a line and place the second half above the first half
 map("n", "<leader>kl", "d$O<Esc>p==", { desc = "Split Line Above" })
 -- AI
