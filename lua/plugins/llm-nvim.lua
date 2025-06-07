@@ -2,6 +2,7 @@
 return {
     {
         "julwrites/llm-nvim",
+        enabled = false,
         -- Optional: Specify dependencies if needed, e.g., for UI components
         dependencies = { "nvim-lua/plenary.nvim" },
         config = function()

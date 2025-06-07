@@ -1,3 +1,4 @@
+-- return {}
 return {
     "tfpickard/sleezwave.nvim",
     lazy = false,
