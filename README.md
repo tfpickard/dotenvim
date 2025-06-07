@@ -16,40 +16,18 @@ This Neovim configuration is built on top of LazyVim, providing a modern and eff
 
 This configuration includes a wide range of plugins to enhance the Neovim experience. Below is a complete list of plugins used:
 
-- **lazyvim.plugins.extras.ai.copilot**
-- **lazyvim.plugins.extras.ai.copilot-chat**
-- **lazyvim.plugins.extras.coding.blink**
-- **lazyvim.plugins.extras.coding.luasnip**
-- **lazyvim.plugins.extras.coding.nvim-cmp**
-- **lazyvim.plugins.extras.coding.yanky**
-- **lazyvim.plugins.extras.editor.aerial**
-- **lazyvim.plugins.extras.editor.dial**
-- **lazyvim.plugins.extras.editor.fzf**
-- **lazyvim.plugins.extras.editor.harpoon2**
-- **lazyvim.plugins.extras.editor.illuminate**
-- **lazyvim.plugins.extras.editor.inc-rename**
-- **lazyvim.plugins.extras.editor.snacks_picker**
-- **lazyvim.plugins.extras.editor.telescope**
-- **lazyvim.plugins.extras.formatting.biome**
-- **lazyvim.plugins.extras.formatting.black**
-- **lazyvim.plugins.extras.formatting.prettier**
-- **lazyvim.plugins.extras.lang.clangd**
-- **lazyvim.plugins.extras.lang.cmake**
-- **lazyvim.plugins.extras.lang.docker**
-- **lazyvim.plugins.extras.lang.git**
-- **lazyvim.plugins.extras.lang.json**
-- **lazyvim.plugins.extras.lang.markdown**
-- **lazyvim.plugins.extras.lang.python**
-- **lazyvim.plugins.extras.lang.toml**
-- **lazyvim.plugins.extras.lang.yaml**
-- **lazyvim.plugins.extras.ui.alpha**
-- **lazyvim.plugins.extras.ui.edgy**
-- **lazyvim.plugins.extras.util.chezmoi**
-- **lazyvim.plugins.extras.util.dot**
-- **lazyvim.plugins.extras.util.gitui**
-- **lazyvim.plugins.extras.util.mini-hipatterns**
-- **lazyvim.plugins.extras.util.project**
-- **lazyvim.plugins.extras.util.startuptime**
+- **hrsh7th/nvim-cmp**: Completion plugin for Neovim.
+- **saghen/blink.cmp**: Provides advanced completion features and snippet expansion.
+- **Civitasv/cmake-tools.nvim**: Tools for working with CMake in Neovim.
+- **neovim/nvim-lspconfig**: Quickstart configurations for the Neovim LSP client.
+- **stevearc/conform.nvim**: A plugin for code formatting.
+- **MeanderingProgrammer/render-markdown.nvim**: Renders markdown files in Neovim.
+- **linux-cultist/venv-selector.nvim**: Simplifies Python virtual environment management.
+- **jay-babu/mason-nvim-dap.nvim**: Configures debugging adapters for Python.
+- **t3ntxcl3s/ecolog.nvim**: Manages environment variables with key mappings for quick access.
+- **sos**: Provides autosave functionality with pre and post save hooks.
+- **undo-glow**: Highlights text when yanking or gaining focus.
+- **LazyVim**: A collection of plugins and configurations for Neovim.
 
 These plugins are configured to provide a comprehensive development environment with support for various languages, tools, and utilities.
 
