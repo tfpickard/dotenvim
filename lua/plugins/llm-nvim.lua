@@ -3,7 +3,7 @@ return {
     {
         "julwrites/llm-nvim",
         -- Optional: Specify dependencies if needed, e.g., for UI components
-        -- dependencies = { 'nvim-lua/plenary.nvim' },
+        dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
             -- Configure the plugin
             require("llm").setup({
@@ -17,7 +17,7 @@ return {
                 -- no_mappings = true,
 
                 -- Enable debug logging (optional)
-                -- debug = true,
+                debug = false,
             })
 
             -- Example custom key mappings (if no_mappings = true or for overrides)

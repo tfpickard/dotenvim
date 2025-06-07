@@ -1,10 +1,14 @@
 return {
+
+    -- @alias UndoGlow.AnimationTypeString
+    -- "fade" | "fade_reverse" | "blink" | "pulse" | "jitter" | "spring"
+    -- "desaturate" | "strobe" | "zoom" | "rainbow" | "slide"
     "y3owk1n/undo-glow.nvim",
     ---@type UndoGlow.Config
     opts = {
         animation = {
             enabled = true,
-            duration = 500,
+            duration = 200,
             animtion_type = "zoom",
             window_scoped = true,
         },
@@ -13,7 +17,7 @@ return {
                 hl_color = { bg = "#ff6b9d" }, -- Dark muted red
             },
             redo = {
-                hl_color = { bg = "#7dffb3" }, -- Dark muted green
+                hl_color = { bg = "#ff8fab" }, -- Dark muted pink
             },
             yank = {
                 hl_color = { bg = "#fff176" }, -- Dark muted yellow
@@ -28,7 +32,7 @@ return {
                 hl_color = { bg = "#5c6bc0" }, -- Dark muted orange
             },
             cursor = {
-                hl_color = { bg = "#ff8fab" }, -- Dark muted pink
+                hl_color = { bg = "#7dffb3" }, -- Dark muted green
             },
         },
         priority = 2048 * 3,
@@ -37,7 +41,11 @@ return {
         {
             "u",
             function()
-                require("undo-glow").undo()
+                require("undo-glow").undo({
+                    animation = {
+                        animation_type = "fade",
+                    },
+                })
             end,
             mode = "n",
             desc = "Undo with highlight",
@@ -46,7 +54,11 @@ return {
         {
             "U",
             function()
-                require("undo-glow").redo()
+                require("undo-glow").redo({
+                    animation = {
+                        animation_type = "fade_reverse",
+                    },
+                })
             end,
             mode = "n",
             desc = "Redo with highlight",
@@ -166,16 +178,18 @@ return {
         })
 
         -- This only handles neovim instance and do not highlight when switching panes in tmux
-        vim.api.nvim_create_autocmd("CursorMoved", {
-            desc = "Highlight when cursor moved significantly",
-            callback = function()
-                require("undo-glow").cursor_moved({
-                    animation = {
-                        animation_type = "slide",
-                    },
-                })
-            end,
-        })
+        -- vim.api.nvim_create_autocmd("CursorMoved", {
+        --     desc = "Highlight when cursor moved significantly",
+        --     callback = function()
+        --         require("undo-glow").cursor_moved({
+        --             -- animation = {
+        --             -- "fade" | "fade_reverse" | "blink" | "pulse" | "jitter" | "spring"
+        --             -- "desaturate" | "strobe" | "zoom" | "rainbow" | "slide"
+        --             -- animation_type = "desaturate",
+        --             -- },
+        --         })
+        --     end,
+        -- })
 
         -- This will handle highlights when focus gained, including switching panes in tmux
         vim.api.nvim_create_autocmd("FocusGained", {
@@ -184,7 +198,9 @@ return {
                 ---@type UndoGlow.CommandOpts
                 local opts = {
                     animation = {
-                        animation_type = "slide",
+                        -- "fade" | "fade_reverse" | "blink" | "pulse" | "jitter" | "spring"
+                        -- "desaturate" | "strobe" | "zoom" | "rainbow" | "slide"
+                        animation_type = "rainbow",
                     },
                 }
 

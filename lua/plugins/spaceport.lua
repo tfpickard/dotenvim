@@ -1,5 +1,6 @@
 return {
     "CWood-sdf/spaceport.nvim",
+    enabled = false,
     opts = {
 
         -- This prevents the same directory from being repeated multiple times in the recents section

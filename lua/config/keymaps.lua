@@ -5,6 +5,9 @@
 -- vim.keymap.set({ "n", "v" }, "<LocalLeader>a", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
 -- vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
 local map = vim.keymap.set
+--
+-- Oil
+map("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 -- Nerdy
 map("n", "<leader>ii", ":Nerdy<CR>", { desc = "Icon picker (nerdy)" })
