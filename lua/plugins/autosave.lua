@@ -25,7 +25,7 @@ return {
             ---Save all buffers before executing a `:` command on the cmdline (does not
             ---include `<Cmd>` mappings).
             ---
-            ---### Choices:
+            ---### Choices   :
             ---
             ---  - "all"                 : save on any cmd that gets executed
             ---  - "some"                : only for some commands (source, luafile, etc.).
