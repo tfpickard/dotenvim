@@ -1,5 +1,5 @@
 return {
-  "williamboman/mason.nvim",
+  "mason-org/mason.nvim",
   opts = {
     install_root_dir = vim.fn.stdpath("data") .. "/mason",
     PATH = "append", -- ensure mason/bin is on PATH

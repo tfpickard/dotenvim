@@ -68,7 +68,6 @@ return {
         },
         config = function(_, opts)
             require("mason-tool-installer").setup(opts)
-            print("hi!")
         end,
     },
 
@@ -78,7 +77,7 @@ return {
         dependencies = {
             "jose-elias-alvarez/typescript.nvim",
             init = function()
-                require("lazyvim.util").lsp.on_attach(function(_, buffer)
+                Snacks.util.lsp.on("attach", function(_, buffer)
           -- stylua: ignore
           vim.keymap.set( "n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
                     vim.keymap.set(
