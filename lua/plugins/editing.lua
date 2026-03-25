@@ -108,7 +108,7 @@ return {
                 return a.name < b.name
             end,
             integrations = {
-                lspsaga = true,
+                lspsaga = false,
                 blink_cmp = true,
                 statusline = {
                     hidden_mode = true,

@@ -1,3 +1,10 @@
+local function restart_lsp(name)
+    vim.lsp.enable(name, false)
+    vim.defer_fn(function()
+        vim.lsp.enable(name)
+    end, 100)
+end
+
 return {
 
     {
@@ -74,55 +81,31 @@ return {
     {
 
         "neovim/nvim-lspconfig",
-        dependencies = {
-            "jose-elias-alvarez/typescript.nvim",
-            init = function()
-                Snacks.util.lsp.on("attach", function(_, buffer)
-          -- stylua: ignore
-          vim.keymap.set( "n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
-                    vim.keymap.set(
-                        "n",
-                        "<leader>cR",
-                        "TypescriptRenameFile",
-                        { desc = "Rename File", buffer = buffer }
-                    )
-                    -- Python specific keymaps
-                    vim.keymap.set(
-                        "n",
-                        "<leader>rf",
-                        ":PyrightOrganizeImports<CR>",
-                        { desc = "Organize Imports", buffer = buffer }
-                    )
-                    vim.keymap.set(
-                        "n",
-                        "<leader>rr",
-                        ":PyrightRestart<CR>",
-                        { desc = "Restart Pyright", buffer = buffer }
-                    )
-                end)
-            end,
-        },
         ---@class PluginLspOpts
         opts = {
-            ---@type lspconfig.options
+            ---@type vim.lsp.Config
             servers = {
-                -- tsserver will be automatically installed with mason and loaded with lspconfig
-                tsserver = {},
-                pyright = {},
-            },
-            -- you can do any additional lsp server setup here
-            -- return true if you don't want this server to be setup with lspconfig
-            ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-            setup = {
-                -- example to setup with typescript.nvim
-                tsserver = function(_, opts)
-                    require("typescript").setup({ server = opts })
-                    return true
-                end,
-                -- example to setup with pyright
-                pyright = function(_, opts)
-                    -- Customize pyright settings here
-                    opts.settings = {
+                vtsls = {
+                    settings = {
+                        complete_function_calls = true,
+                        vtsls = {
+                            autoUseWorkspaceTsdk = true,
+                        },
+                        typescript = {
+                            updateImportsOnFileMove = { enabled = "always" },
+                            suggest = {
+                                completeFunctionCalls = true,
+                            },
+                        },
+                        javascript = {
+                            suggest = {
+                                completeFunctionCalls = true,
+                            },
+                        },
+                    },
+                },
+                pyright = {
+                    settings = {
                         python = {
                             analysis = {
                                 typeCheckingMode = "strict",
@@ -130,10 +113,18 @@ return {
                                 useLibraryCodeForTypes = true,
                             },
                         },
-                    }
-                    return true
-                end,
-                -- ["*"] = function(server, opts) end,
+                    },
+                    keys = {
+                        { "<leader>rf", "<cmd>LspPyrightOrganizeImports<cr>", desc = "Organize Imports" },
+                        {
+                            "<leader>rr",
+                            function()
+                                restart_lsp("pyright")
+                            end,
+                            desc = "Restart Pyright",
+                        },
+                    },
+                },
             },
         },
     },
