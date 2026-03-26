@@ -8,69 +8,32 @@ end
 return {
 
     {
-        {
-            "tfpickard/pathcheck.nvim",
-            enabled = false,
-            -- dir = "~/src/pathcheck.nvim/",
-            lazy = false,
-            config = function()
-                require("pathcheck").ensure_local_bin()
-            end,
-        },
-    },
-    {
         "WhoIsSethDaniel/mason-tool-installer.nvim",
         opts = {
-            -- Formatters and linters to install
             ensure_installed = {
                 -- formatters
-                "shfmt", -- Bash/Zsh/Shell
-                "clang-format", -- C/C++
-                -- "cmake-format",           -- CMake
-                "prettier", -- CSS
-                -- "dockfmt",                -- Docker & Docker Compose
-                "prettier", -- HTML
-                -- "ini-fmt",                -- INI
-                "prettier",
-                "biome", -- JavaScript/TypeScript
-                "prettier",
-                "jq", -- JSON
-                "latexindent", -- LaTeX
-                "stylua", -- Lua
-                -- "indent",                 -- Make
-                "prettier",
-                "mdformat", -- Markdown
+                "stylua",
+                "shfmt",
+                "biome",
                 "black",
                 "isort",
-                "ruff", -- Python
-                "rustfmt", -- Rust
-                "taplo", -- TOML
-                "prettier",
-                "yamlfix", -- YAML
-
-                -- linters
-                "shellcheck", -- Bash/Zsh/Shell
-                -- "clang-tidy",
-                -- "cppcheck", -- C/C++
-                "cmakelint", -- CMake
-                "stylelint", -- CSS
-                "hadolint", -- Docker & Docker Compose
-                "htmlhint", -- HTML
-                -- "ini-lint", -- INI
-                "eslint",
-                "biome", -- JavaScript/TypeScript
-                "jsonlint", -- JSON
-                -- "chktex", -- LaTeX
-                "luacheck", -- Lua
-                "checkmake", -- Make
-                "markdownlint", -- Markdown
                 "ruff",
-                "pylint",
-                "flake8",
-                "mypy", -- Python
-                -- "clippy", -- Rust
-                "taplo", -- TOML
-                "yamllint", -- YAML
+                "mdformat",
+                "latexindent",
+                "taplo",
+                "yamlfix",
+                "rustfmt",
+
+                -- diagnostics / linters
+                "shellcheck",
+                "cmakelint",
+                "hadolint",
+                "eslint",
+                "jsonlint",
+                "luacheck",
+                "markdownlint",
+                "mypy",
+                "yamllint",
             },
         },
         config = function(_, opts)

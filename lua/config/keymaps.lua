@@ -9,8 +9,10 @@ local map = vim.keymap.set
 -- Oil
 map("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
--- Nerdy
-map("n", "<leader>ii", ":Nerdy<CR>", { desc = "Icon picker (nerdy)" })
+-- Keep the old icon-picker muscle memory, but route it through Snacks.
+map("n", "<leader>ii", function()
+    Snacks.picker.icons()
+end, { desc = "Icon Picker" })
 
 -- The most useful thing in the world: split a line and place the second half above the first half
 map("n", "<leader>kl", "d$O<Esc>p==", { desc = "Split Line Above" })

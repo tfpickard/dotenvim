@@ -23,6 +23,10 @@ return {
         },
         dependencies = {
             "rafamadriz/friendly-snippets",
+            {
+                "mikavilpas/blink-ripgrep.nvim",
+                version = "*",
+            },
             -- add blink.compat to dependencies
             {
                 "saghen/blink.compat",
@@ -31,7 +35,7 @@ return {
                 version = not vim.g.lazyvim_blink_main and "*",
             },
         },
-        event = "InsertEnter",
+        event = { "InsertEnter", "CmdlineEnter" },
 
         ---@module 'blink.cmp'
         ---@type blink.cmp.Config
@@ -78,11 +82,45 @@ return {
                 -- adding any nvim-cmp sources here will enable them
                 -- with blink.compat
                 compat = {},
-                default = { "lsp", "path", "snippets", "buffer" },
+                default = { "ripgrep" },
+                providers = {
+                    ripgrep = {
+                        module = "blink-ripgrep",
+                        name = "Ripgrep",
+                        ---@module "blink-ripgrep"
+                        ---@type blink-ripgrep.Options
+                        opts = {
+                            prefix_min_len = 4,
+                            project_root_marker = { ".git", "package.json", "pyproject.toml" },
+                            fallback_to_regex_highlighting = true,
+                            backend = {
+                                use = "gitgrep-or-ripgrep",
+                                ripgrep = {
+                                    max_filesize = "1M",
+                                    search_casing = "--smart-case",
+                                },
+                            },
+                        },
+                    },
+                },
             },
 
             cmdline = {
-                enabled = false,
+                enabled = true,
+                keymap = {
+                    preset = "cmdline",
+                    ["<Right>"] = false,
+                    ["<Left>"] = false,
+                },
+                completion = {
+                    list = { selection = { preselect = false } },
+                    menu = {
+                        auto_show = function()
+                            return vim.fn.getcmdtype() == ":"
+                        end,
+                    },
+                    ghost_text = { enabled = true },
+                },
             },
 
             keymap = {

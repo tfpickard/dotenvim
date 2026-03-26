@@ -9,9 +9,9 @@ return {
         {
             indent = {
                 priority = 1,
-                enabled = true, -- enable indent guides
+                enabled = true,       -- enable indent guides
                 char = "┆",
-                only_scope = false, -- only show indent guides of the scope
+                only_scope = false,   -- only show indent guides of the scope
                 only_current = false, -- only show indent guides in the current window
                 hl = "SnacksIndent", ---@type string|string[] hl groups for indent guides
                 -- can be a list of hl groups to cycle through
@@ -40,7 +40,7 @@ return {
                 style = "out",
                 easing = "bounce",
                 duration = {
-                    step = 10, -- ms per step
+                    step = 10,   -- ms per step
                     total = 500, -- maximum duration
                 },
             },
@@ -50,7 +50,7 @@ return {
                 priority = 200,
                 char = "┆",
                 -- char = "┆│",
-                underline = true, -- underline the start of the scope
+                underline = true,     -- underline the start of the scope
                 only_current = false, -- only show scope in the current window
                 hl = "SnacksIndentScope", ---@type string|string[] hl group for scopes
             },
@@ -96,17 +96,21 @@ return {
         dashboard = { enabled = false },
         explorer = { enabled = true },
     },
-  -- stylua: ignore
-  keys = {
-    { "<leader>n", function()
-      if Snacks.config.picker and Snacks.config.picker.enabled then
-        Snacks.picker.notifications()
-      else
-        Snacks.notifier.show_history()
-      end
-    end, desc = "Notification History" },
-    { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
-  },
+    -- stylua: ignore
+    keys = {
+        {
+            "<leader>n",
+            function()
+                if Snacks.config.picker and Snacks.config.picker.enabled then
+                    Snacks.picker.notifications()
+                else
+                    Snacks.notifier.show_history()
+                end
+            end,
+            desc = "Notification History"
+        },
+        { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
+    },
 }
 --
 -- p{

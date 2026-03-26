@@ -83,7 +83,7 @@ return {
     keys = {
         -- Quick Sshiv execution
         {
-            "<leader>ss",
+            "<leader>Rs",
             function()
                 require("sshiv").exec_interactive()
             end,
@@ -92,7 +92,7 @@ return {
 
         -- Repeat last Sshiv command
         {
-            "<leader>sr",
+            "<leader>Rr",
             function()
                 require("sshiv").exec_last()
             end,
@@ -101,7 +101,7 @@ return {
 
         -- Sshiv to localhost (useful for testing)
         {
-            "<leader>sl",
+            "<leader>Rl",
             function()
                 local cmd = vim.fn.input("Local command: ", "")
                 if cmd ~= "" then
@@ -113,7 +113,7 @@ return {
 
         -- Preset commands with fzf
         {
-            "<leader>sp",
+            "<leader>Rp",
             function()
                 require("sshiv").fzf_presets()
             end,
@@ -122,7 +122,7 @@ return {
 
         -- Quick preset for specific host
         {
-            "<leader>sP",
+            "<leader>RP",
             function()
                 local host = vim.fn.input("Sshiv Host: ", "")
                 if host ~= "" then
@@ -134,7 +134,7 @@ return {
 
         -- Show preset list
         {
-            "<leader>s?",
+            "<leader>R?",
             function()
                 require("sshiv").show_presets()
             end,
@@ -145,7 +145,7 @@ return {
 
         -- Send buffer content via stdin
         {
-            "<leader>sb",
+            "<leader>Rb",
             function()
                 local host = vim.fn.input("Sshiv Host: ", "")
                 local cmd = vim.fn.input("Command: ", "tee /tmp/buffer_content")
@@ -160,7 +160,7 @@ return {
 
         -- Send visual selection via stdin
         {
-            "<leader>sv",
+            "<leader>Rv",
             function()
                 local host = vim.fn.input("Sshiv Host: ", "")
                 local cmd = vim.fn.input("Command: ", "tee /tmp/selection")
@@ -187,7 +187,7 @@ return {
 
         -- Stdin presets with fzf
         {
-            "<leader>sB",
+            "<leader>RB",
             function()
                 require("sshiv").fzf_presets_stdin()
             end,
@@ -196,7 +196,7 @@ return {
 
         -- Quick authorized_keys append
         {
-            "<leader>sk",
+            "<leader>Rk",
             function()
                 local host = vim.fn.input("Sshiv Host: ", "")
                 if host ~= "" then
@@ -212,7 +212,7 @@ return {
 
         -- Quick system info preset
         {
-            "<leader>si",
+            "<leader>Ri",
             function()
                 local host = vim.fn.input("Sshiv Host: ", "")
                 if host ~= "" then
@@ -224,7 +224,7 @@ return {
 
         -- Quick process check
         {
-            "<leader>sT",
+            "<leader>RT",
             function()
                 local host = vim.fn.input("Sshiv Host: ", "")
                 if host ~= "" then
