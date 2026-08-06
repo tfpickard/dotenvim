@@ -1,157 +1,122 @@
 # Neovim Configuration
 
-This Neovim configuration is built on top of LazyVim, providing a modern and efficient editing experience. It includes a variety of plugins and custom settings to enhance productivity and support various programming languages.
+A [LazyVim](https://www.lazyvim.org/)-based Neovim config, tuned for Python,
+TypeScript, Go, Rust, C/C++ and shell work.
+
+Requires **Neovim ≥ 0.11** (developed against 0.12-dev; the config uses the
+native `vim.lsp.config` / `vim.diagnostic.jump` APIs).
+
+## Design rules
+
+Two conventions keep this config from rotting, both learned the hard way:
+
+1. **Don't restate LazyVim's defaults as live code.** User config loads *after*
+   LazyVim, so a copied default silently overrides upstream — including
+   upstream's bug fixes. `lua/config/options.lua` and `lua/config/keymaps.lua`
+   therefore contain only genuine deltas, with the full option surface kept
+   nearby as commented reference so it's still discoverable.
+
+2. **Every plugin spec needs a load trigger.** `lua/config/lazy.lua` sets
+   `defaults = { lazy = true }`, so a spec with no `event`/`cmd`/`keys`/`ft` is
+   resolved but *never loaded* — the plugin appears installed while doing
+   nothing. Dependencies are the only exception; they load via `require`.
 
 ## Features
 
-- **Auto Formatting**: Automatically formats code on buffer write using the `conform` plugin.
-- **Diagnostic Navigation**: Custom key mappings for navigating diagnostics with severity filtering.
-- **Autosave**: Automatically saves changes with configurable timeout and hooks using the `sos` plugin.
-- **Completion and Snippets**: Completion powered by `blink.cmp` (nvim-cmp is disabled), with snippets via `friendly-snippets`/`luasnip` and a `ripgrep` source.
-- **AI Assistance**: GitHub Copilot suggestions surfaced through `blink.cmp`, plus `codecompanion.nvim` (Copilot-backed) for chat and inline edits (`<C-a>`, `<LocalLeader>a`, `ga`).
-- **Language Support**: Configurations for CMake, Docker, JSON, Python, and YAML with LSP support.
-- **Editing Enhancements**: Includes plugins for line splitting, undo highlighting, and more.
+- **Completion** — `blink.cmp` (nvim-cmp disabled), with LSP, path, snippets,
+  buffer, Copilot and a ripgrep source. `<CR>` accepts, `<C-y>` force-accepts.
+- **AI** — GitHub Copilot surfaced through `blink.cmp` (`<Tab>` to accept), plus
+  `sidekick.nvim` for Copilot **Next Edit Suggestions**: it predicts your next
+  *edit* anywhere in the file, not just text after the cursor. `<Tab>` in normal
+  mode jumps to a suggestion, `<Tab>` again applies it.
+- **AI CLI** — `<leader>aa` opens an AI CLI in a split that shares buffer
+  context. See the provider policy below.
+- **LSP** — mason-managed servers via LazyVim extras; `bashls`, `html`,
+  `vtsls`, `pyright` configured locally.
+- **Formatting** — `conform.nvim` on save, honouring each project's own
+  indentation via `guess-indent` and any `.editorconfig`/formatter config.
+- **Autosave** — `auto-save.nvim`, debounced; toggle with `<leader>uW`.
+- **Git** — lazygit + Snacks pickers, `diffview.nvim` for diffs and file history.
+- **Navigation** — Snacks picker, `oil.nvim` (`-` opens the parent directory as
+  an editable buffer), harpoon, flash, aerial.
 
-## Plugins
+## AI provider policy
 
-> **Note:** the list below is a point-in-time snapshot and may lag behind the
-> live config (some plugins such as `avante.nvim`/`aider.nvim` have since been
-> removed). Run `:Lazy` for the authoritative, current plugin list.
+This config is used on both a work and a personal machine.
 
-This configuration includes a wide range of plugins to enhance the Neovim experience. Below is a complete list of plugins used:
-● aerial.nvim
-● aider.nvim
-● alpha-nvim 0.71ms  VimEnter
-● automkdir.nvim 0.3ms  start
-● avante.nvim 26.12ms  VeryLazy
-● better-escape.nvim 0.75ms  start
-● blink-cmp-copilot 0.03ms  blink.cmp
-● blink.cmp 21.85ms 󰢱 blink.cmp  nvim-lspconfig
-● bufferline.nvim 3.24ms  VeryLazy
-● cellular-automaton.nvim 0.21ms  start
-● chezmoi.vim 0.12ms  start
-● clangd_extensions.nvim 0.29ms 󰢱 clangd_extensions  nvim-lspconfig
-● cmdline.nvim 0.41ms  start
-● copilot.lua 29.79ms  BufReadPost
-● dressing.nvim 1.26ms  avante.nvim
-● ecolog.nvim 2.2ms  start
-● edgy.nvim 9.68ms  VeryLazy
-● flash.nvim 1.66ms  VeryLazy
-● focus.nvim 1.6ms  start
-● friendly-snippets 15.4ms  blink.cmp
-● fzf-lua 0.36ms  avante.nvim
-● gitsigns.nvim 5.12ms  LazyFile
-● gruvbox.nvim 0.1ms  start
-● hawtkeys.nvim 0.79ms  start
-● illogical.nvim 1.5ms  start
-● img-clip.nvim 1.64ms  VeryLazy
-● lazy.nvim 29.2ms  init.lua
-● lazydev.nvim 0.83ms  lua
-● LazyVim 3.15ms  start
-● letterspread.nvim 0.58ms  VeryLazy
-● lualine.nvim 19.05ms  VeryLazy
-● LuaSnip 5.64ms 󰢱 luasnip.loaders.from_vscode  friendly-snippets
-● mason-lspconfig.nvim 0.02ms 󰢱 mason-lspconfig  mason-tool-installer.nvim
-● mason-tool-installer.nvim 6.17ms  start
-● mason.nvim 3.25ms 󰢱 mason-registry  mason-tool-installer.nvim
-● mini.ai 1.12ms  VeryLazy
-● mini.hipatterns 0.49ms  LazyFile
-● mini.icons 0.73ms  oil.nvim
-● mini.pairs 1.23ms  VeryLazy
-● mini.pick 0.27ms  avante.nvim
-● nui.nvim 0.11ms  avante.nvim
-● nvim-colorizer.lua 2.3ms  BufReadPre
-● nvim-lint 0.47ms  LazyFile
-● nvim-lspconfig 46.99ms  LazyFile
-● nvim-puppeteer 0.21ms  start
-● nvim-regexplainer 2.06ms  start
-● nvim-surround 0.24ms  surround-ui.nvim
-● nvim-treesitter 5.83ms  start
-● nvim-treesitter-textobjects 3.32ms  VeryLazy
-● nvim-ts-autotag 1.73ms  LazyFile
-● nvim-web-devicons 0.41ms  vgit.nvim
-● oil.nvim 2.61ms  start
-● persistence.nvim 0.53ms  BufReadPre
-● plenary.nvim 0.31ms  hawtkeys.nvim
-● project.nvim 1.23ms  VeryLazy
-● remote-sshfs.nvim 82.27ms  start
-● render-markdown.nvim 12.49ms  avante.nvim
-● sleezwave.nvim 2.24ms  start
-● smartcolumn.nvim 0.45ms  start
-● snacks.nvim 0.86ms  start
-● sos.nvim 2.48ms  start
-● split.nvim 1.34ms  start
-● surround-ui.nvim 3.08ms  start
-● telescope.nvim 11.35ms  remote-sshfs.nvim
-● themify.nvim 2.46ms  start
-● todo-comments.nvim 1.31ms  LazyFile
-● tokyonight.nvim 0.44ms 󰢱 tokyonight  LazyVim
-● trouble.nvim 5.79ms 󰢱 trouble  lualine.nvim
-● ts-comments.nvim 0.49ms  VeryLazy
-● typescript.nvim 0.15ms  nvim-lspconfig
-● undo-glow.nvim 6.17ms 󰢱 undo-glow  plugins.undo-glow
-● vgit.nvim 14.74ms  VimEnter
-● vim-illuminate 1.69ms  LazyFile
-● visual-whitespace.nvim 5.53ms  ModeChanged \*:[vV]
-● which-key.nvim 0.78ms 󰢱 which-key  illogical.nvim
-● yanky.nvim 3.56ms  LazyFile
+At work, GitHub Copilot must be the AI **provider**. That constrains the
+*vendor*, not the model — Claude Opus 5, GPT-5.6 and the other flagship models
+Copilot brokers are all still Copilot, so the `copilot` CLI is unrestricted.
 
-Not Loaded (18)
-○ catppuccin
-○ chezmoi.nvim  ChezmoiEdit  <leader>sz
-○ cmake-tools.nvim
-○ comment-box.nvim  <Leader>cm (v)  <Leader>cb  <Leader>cb (v)  <Leader>ct  <Leader>ct (v)  <Leader>cl  <Leader>cm
-○ conform.nvim  ConformInfo  <leader>cF  <leader>cF (v)
-○ CopilotChat.nvim  CopilotChat  <c-s>  <leader>a  <leader>a (v)  <leader>aa  <leader>aa (v)  <leader>ax  <leader>ax (v)  <leader>aq  <leader>aq (v)  <leader>ap  <leader>ap (v)
-○ dial.nvim  <C-a>  <C-x>  <C-a> (v)  <C-x> (v)  g<C-a>  g<C-a> (v)  g<C-x>  g<C-x> (v)
-○ grug-far.nvim  GrugFar  <leader>sr  <leader>sr (v)
-○ gruvbox  pineapple
-○ harpoon  <leader>h  <leader>1  <leader>2  <leader>3  <leader>4  <leader>5  <leader>H
-○ inc-rename.nvim  IncRename
-○ markdown-preview.nvim  MarkdownPreview  MarkdownPreviewStop  MarkdownPreviewToggle  <leader>cp
-○ nerdy.nvim  Nerdy
-○ pineapple  Pineapple
-○ SchemaStore.nvim
-○ sort.nvim  go  go (v)
-○ venv-selector.nvim  VenvSelect  python  <leader>cv
-○ vim-startuptime  StartupTime
+What must not happen at work is talking to a vendor **directly**. Those CLIs
+authenticate from an API key in the environment, so the key's presence is the
+capability check:
 
-Disabled (12)
-○ codecompanion.nvim
-○ hardtime.nvim
-○ llm-nvim
-○ noice.nvim
-○ nvim-cmp
-○ nvim-comment-frame
-○ nvim-dev-container
-○ nvim-snippets
-○ pathcheck.nvim
-○ spaceport.nvim
-○ stopinsert.nvim
-○ text-to-colorscheme
+| CLI | Requires | Absent ⇒ |
+| --- | --- | --- |
+| `copilot` | — | always available |
+| `claude` | `ANTHROPIC_API_KEY` | hidden from the picker |
+| `codex` | `OPENAI_API_KEY` | hidden from the picker |
+| `opencode` | `OPENROUTER_API_KEY` | hidden from the picker |
 
-These plugins are configured to provide a comprehensive development environment with support for various languages, tools, and utilities.
+The environment *is* the policy: there's no toggle to forget, so a work machine
+is correct by default and a personal machine lights the extra tools up on its
+own. `<leader>aP` reports the effective state. No API keys live in this repo.
 
-## Custom Key Mappings
+## Key mappings
 
-- **Diagnostic Navigation**: Use `<leader>gY` to browse Git URLs and navigate diagnostics.
-- **Ecolog Commands**: Various key mappings under `<leader>e` for managing environment variables.
-- **Split Lines**: Use `gs` and `gss` to split lines by commas and semicolons.
+LazyVim's defaults all apply — see the reference block at the bottom of
+`lua/config/keymaps.lua`, or just press `<leader>` and read the which-key popup.
+Every custom prefix is registered with which-key, so nothing shows up unlabelled.
+
+Additions and changes on top of LazyVim:
+
+| Key | Action |
+| --- | --- |
+| `-` | Open parent directory (Oil) |
+| `<leader>ii` | Icon picker |
+| `<leader>kl` | Split line, second half above |
+| `<leader>wq` / `<leader>q!` | Save and quit all / force quit all |
+| `<C-q>` | Quit |
+| `<leader>a…` | AI (sidekick): `aa` toggle CLI, `as` select, `aP` policy |
+| `<leader>E…` | Environment variables (ecolog) |
+| `<leader>H…` | HTTP requests (kulala) |
+| `<leader>R…` | Remote execution (sshiv) |
+| `<leader>c{b,t,l,m}` | Comment boxes |
+| `<leader>g{d,D,h,H}` | Diffview open/close, file/repo history |
+| `<leader>rx` | Explain regex |
+| `<leader>u{W,N,x}` | Toggle autosave / Copilot NES / treesitter context |
+| `gs`, `gss`, `gS`, `gSS` | Split by pattern / interactive |
+| `go` | Sort |
+| `jk`, `jj` | Escape (insert, cmdline, terminal, visual, select) |
+
+> `<leader>E` rather than `<leader>e` for ecolog: `<leader>e` is LazyVim's
+> Explorer, and sharing the prefix made Explorer wait `timeoutlen` on every
+> press.
+
+## Layout
+
+```
+init.lua                  bootstraps lua/config/lazy.lua
+lazyvim.json              which LazyVim extras are enabled
+lua/config/
+  lazy.lua                lazy.nvim bootstrap + performance settings
+  options.lua             option deltas + commented LazyVim reference
+  keymaps.lua             custom maps + commented LazyVim reference
+  autocmds.lua            cursor-crosshair highlight fallback
+lua/plugins/              one spec (or group) per file
+```
 
 ## Installation
 
-1. Ensure you have Neovim installed.
-2. Clone this repository into your Neovim configuration directory.
-3. Launch Neovim and run `:PackerSync` to install plugins.
+```sh
+git clone https://github.com/tfpickard/dotenvim ~/.config/nvim
+nvim   # lazy.nvim bootstraps itself and installs everything on first launch
+```
 
-## Configuration
-
-This setup is highly customizable. You can modify the configuration files in the `lua/config` and `lua/plugins` directories to suit your needs.
-
-## Contributing
-
-Feel free to open issues or submit pull requests for improvements or bug fixes.
+Then run `:checkhealth` and `:Lazy` to confirm. `:Mason` manages external
+tools; only tools actually wired into `conform`/`nvim-lint` are auto-installed.
 
 ## License
 
-This configuration is open-source and available under the MIT License.
+MIT.

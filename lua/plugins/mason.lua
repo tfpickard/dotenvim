@@ -20,24 +20,35 @@ return {
         install_root_dir = vim.fn.stdpath("data") .. "/mason",
         PATH = "append", -- ensure mason/bin is on PATH
 
+        -- Only list tools that something actually *uses*. A linter in
+        -- ensure_installed that is not registered with nvim-lint (or used by
+        -- an LSP) is downloaded and then never run -- pure disk cost.
+        --
+        -- Verified wired at runtime:
+        --   nvim-lint -> cmakelint, fish, golangcilint, hadolint, markdownlint-cli2
+        --   conform   -> biome-check, black, fish_indent, gofumpt, goimports,
+        --                markdown-toc, markdownlint-cli2, prettier, shfmt, stylua
+        -- All of those are already contributed by LazyVim extras, so this list
+        -- only needs the extras' gaps.
+        --
+        -- Removed as unwired/redundant (each was installed but never invoked):
+        --   jsonlint  -> jsonls validates JSON against SchemaStore
+        --   luacheck  -> lua_ls already provides Lua diagnostics
+        --   yamllint  -> yamlls validates against SchemaStore
+        --   yamlfix   -> prettier formats YAML
+        --   mdformat  -> markdownlint-cli2 + prettier + markdown-toc do markdown
+        --   eslint_d  -> the typescript.biome extra uses biome-check instead
+        --   checkmake -> not registered with nvim-lint
+        --   mypy      -> pyright already type-checks (typeCheckingMode = basic)
+        --   isort     -> not registered with conform
+        --   latexindent -> no LaTeX filetype/extra is enabled
+        -- Re-add any of these *together with* the nvim-lint/conform wiring that
+        -- makes it run, otherwise it will silently do nothing again.
         ensure_installed = {
-            -- formatters (names must exist in the mason v2 registry;
-            -- note: "rustfmt" was removed from the registry — it ships
-            -- with rustup, and rust-analyzer uses it directly)
-            "isort",
-            "mdformat",
-            "latexindent",
-            "yamlfix",
-
-            -- linters / diagnostics
+            -- Used by bash-language-server for shell diagnostics.
             "shellcheck",
+            -- Registered with nvim-lint for dockerfile.
             "hadolint",
-            "jsonlint",
-            "luacheck",
-            "mypy",
-            "yamllint",
-            "checkmake", -- Makefile linter
-            "eslint_d", -- ("eslint" is not a mason package)
         },
     },
     config = nil, -- explicit: use LazyVim's config (see note above)
