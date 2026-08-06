@@ -21,19 +21,19 @@ return {
             { "<leader>i", group = "insert/pickers", icon = " " },
             { "<leader>k", group = "line surgery", icon = " " },
             { "<leader>r", group = "refactor/lsp", icon = " " },
-            { "<leader>a", group = "ai (sidekick)", icon = " ", mode = { "n", "v" } },
             -- Extra members of groups LazyVim already defines
             { "<leader>cb", desc = "Comment box: title" },
             { "<leader>ct", desc = "Comment box: named part" },
             { "<leader>cl", desc = "Comment box: simple line" },
             { "<leader>cm", desc = "Comment box: marked" },
             { "<leader>ux", desc = "Toggle Treesitter Context" },
-            { "<leader>uN", desc = "Toggle Sidekick NES" },
             { "<leader>uW", desc = "Toggle Autosave" },
             { "<leader>ge", desc = "Go to env file" },
-            -- Non-leader custom verbs, so they're discoverable too
-            { "gs", group = "split (by pattern)", mode = { "n", "x" } },
-            { "gS", group = "split (interactive)", mode = { "n", "x" } },
+            -- Non-leader custom verbs, so they're discoverable too.
+            -- NOTE: no entries for <leader>a, <leader>uN, gs or gS here --
+            -- the sidekick extra, its Snacks toggle, and nvim-surround already
+            -- label those, and re-declaring them produced duplicate-mapping
+            -- warnings in :checkhealth which-key.
             { "go", desc = "Sort", mode = { "n", "x" } },
             { "-", desc = "Open parent directory (Oil)" },
         },
