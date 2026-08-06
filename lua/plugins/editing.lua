@@ -1,6 +1,6 @@
 return {
     {
-        "sqve/sort.nvim",
+        "sQVe/sort.nvim",
         keys = {
             {
                 mode = "n",
@@ -64,15 +64,15 @@ return {
         },
     },
     {
-        "t3ntxcl3s/ecolog.nvim",
+        "ph1losof/ecolog.nvim",
         keys = {
-            { "<leader>el", "<Cmd>EcologShelterLinePeek<cr>", desc = "Ecolog peek line" },
-            { "<leader>eh", "<Cmd>EcologShellToggle<cr>", desc = "Toggle shell variables" },
-            { "<leader>ei", "<Cmd>EcologInterpolationToggle<cr>", desc = "Toggle shell variables" },
+            { "<leader>El", "<Cmd>EcologShelterLinePeek<cr>", desc = "Ecolog peek line" },
+            { "<leader>Eh", "<Cmd>EcologShellToggle<cr>", desc = "Toggle shell variables" },
+            { "<leader>Ei", "<Cmd>EcologInterpolationToggle<cr>", desc = "Toggle interpolation" },
             { "<leader>ge", "<cmd>EcologGoto<cr>", desc = "Go to env file" },
-            { "<leader>ec", "<cmd>EcologSnacks<cr>", desc = "Open a picker" },
-            { "<leader>eS", "<cmd>EcologSelect<cr>", desc = "Switch env file" },
-            { "<leader>es", "<cmd>EcologShelterToggle<cr>", desc = "Ecolog shelter toggle" },
+            { "<leader>Ec", "<cmd>EcologSnacks<cr>", desc = "Open a picker" },
+            { "<leader>ES", "<cmd>EcologSelect<cr>", desc = "Switch env file" },
+            { "<leader>Es", "<cmd>EcologShelterToggle<cr>", desc = "Ecolog shelter toggle" },
         },
         lazy = false,
         opts = {
