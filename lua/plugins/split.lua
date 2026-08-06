@@ -1,5 +1,14 @@
+-- BUG FIX: no trigger + `defaults = { lazy = true }` in config/lazy.lua meant
+-- this never loaded, so gs/gS/gss/gSS were unmapped. The plugin registers its
+-- own mappings on setup, so declare them here to trigger the load.
 return {
     "wurli/split.nvim",
+    keys = {
+        { "gs", mode = { "n", "x" }, desc = "Split by pattern" },
+        { "gss", mode = "n", desc = "Split line by pattern" },
+        { "gS", mode = { "n", "x" }, desc = "Split (interactive)" },
+        { "gSS", mode = "n", desc = "Split line (interactive)" },
+    },
     opts = {
         keymaps = {
             -- Here, gs and gss give a mapping to split lines by commas and

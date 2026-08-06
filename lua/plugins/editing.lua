@@ -143,10 +143,14 @@ return {
         },
     },
     {
+        -- BUG FIX: no trigger + `defaults = { lazy = true }` meant this never
+        -- loaded, so the :Regexplainer* commands did not exist.
         "bennypowers/nvim-regexplainer",
-        config = function()
-            require("regexplainer").setup()
-        end,
+        cmd = { "RegexplainerShow", "RegexplainerHide", "RegexplainerToggle" },
+        keys = {
+            { "<leader>rx", "<cmd>RegexplainerToggle<cr>", desc = "Explain Regex" },
+        },
+        opts = {},
         dependencies = {
             "nvim-treesitter/nvim-treesitter",
             "MunifTanjim/nui.nvim",
