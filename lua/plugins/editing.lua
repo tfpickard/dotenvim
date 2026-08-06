@@ -147,7 +147,7 @@ return {
         config = function()
             require("regexplainer").setup()
         end,
-        dependecies = {
+        dependencies = {
             "nvim-treesitter/nvim-treesitter",
             "MunifTanjim/nui.nvim",
         },

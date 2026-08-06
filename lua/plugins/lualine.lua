@@ -117,7 +117,7 @@ return {
                     end,
                 },
             },
-            extensions = { "avante", "neo-tree", "lazy", "fzf", "oil" },
+            extensions = { "neo-tree", "lazy", "fzf", "oil" },
         }
 
         -- do not add trouble symbols if aerial is enabled

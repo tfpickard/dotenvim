@@ -32,7 +32,7 @@ return {
                 mode = { "n", "v" },
                 "<Leader>cm",
                 "<Cmd>CBllbox14<CR>",
-                "comment box narked comments",
+                desc = "Comment box marked comments",
             },
             -- Removing a box is simple enough with the command (CBd), but if you
             -- use it a lot:

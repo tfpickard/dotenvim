@@ -7,12 +7,16 @@ This Neovim configuration is built on top of LazyVim, providing a modern and eff
 - **Auto Formatting**: Automatically formats code on buffer write using the `conform` plugin.
 - **Diagnostic Navigation**: Custom key mappings for navigating diagnostics with severity filtering.
 - **Autosave**: Automatically saves changes with configurable timeout and hooks using the `sos` plugin.
-- **Completion and Snippets**: Enhanced completion with `nvim-cmp` and snippet support via `blink.cmp`.
-- **Code Companion**: Integration with OpenAI for chat and inline code suggestions.
+- **Completion and Snippets**: Completion powered by `blink.cmp` (nvim-cmp is disabled), with snippets via `friendly-snippets`/`luasnip` and a `ripgrep` source.
+- **AI Assistance**: GitHub Copilot suggestions surfaced through `blink.cmp`, plus `codecompanion.nvim` (Copilot-backed) for chat and inline edits (`<C-a>`, `<LocalLeader>a`, `ga`).
 - **Language Support**: Configurations for CMake, Docker, JSON, Python, and YAML with LSP support.
 - **Editing Enhancements**: Includes plugins for line splitting, undo highlighting, and more.
 
 ## Plugins
+
+> **Note:** the list below is a point-in-time snapshot and may lag behind the
+> live config (some plugins such as `avante.nvim`/`aider.nvim` have since been
+> removed). Run `:Lazy` for the authoritative, current plugin list.
 
 This configuration includes a wide range of plugins to enhance the Neovim experience. Below is a complete list of plugins used:
 ● aerial.nvim

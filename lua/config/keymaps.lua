@@ -17,27 +17,9 @@ end, { desc = "Icon Picker" })
 -- The most useful thing in the world: split a line and place the second half above the first half
 map("n", "<leader>kl", "d$O<Esc>p==", { desc = "Split Line Above" })
 -- AI
-
--- CodeCompanion
-map(
-    { "n", "v" },
-    "<C-a>",
-    "<cmd>CodeCompanionActions<cr>",
-    { desc = "CC Actions", noremap = true, silent = true }
-)
-map(
-    { "n", "v" },
-    "<LocalLeader>a",
-    "<cmd>CodeCompanionChat Toggle<cr>",
-    { desc = "CC Chat (toggle)", noremap = true, silent = true }
-)
-map(
-    "v",
-    "ga",
-    "<cmd>CodeCompanionChat Add<cr>",
-    { desc = "CC Chat (add visual)", noremap = true, silent = true }
-)
-vim.cmd([[cab cc CodeCompanion]]) -- Expand 'cc' into 'CodeCompanion' in the command line
+-- NOTE: CodeCompanion keymaps (<C-a>, <LocalLeader>a, ga) and the `cc`
+-- command abbreviation now live with the plugin spec in
+-- lua/plugins/codecompanion.lua so they load lazily with the plugin.
 
 -- Aider
 -- map("n", "<leader>Ao", ":AiderOpen<CR>", { desc = "Open Aider", noremap = true, silent = true }) A
@@ -111,10 +93,11 @@ map(
 )
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })
+-- NOTE: normal-mode `n`/`N` are owned by undo-glow (search highlight +
+-- fold-open) in lua/plugins/undo-glow.lua. Only the x/o-mode variants live
+-- here so they don't silently conflict with that plugin.
 map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
 map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
-map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })
 map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 

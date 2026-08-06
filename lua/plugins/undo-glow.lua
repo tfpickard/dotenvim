@@ -9,7 +9,7 @@ return {
         animation = {
             enabled = true,
             duration = 200,
-            animtion_type = "zoom",
+            animation_type = "zoom",
             window_scoped = true,
         },
         highlights = {
@@ -90,6 +90,7 @@ return {
                         animation_type = "strobe",
                     },
                 })
+                vim.cmd("normal! zv") -- open just enough folds to reveal the match
             end,
             mode = "n",
             desc = "Search next with highlight",
@@ -103,6 +104,7 @@ return {
                         animation_type = "strobe",
                     },
                 })
+                vim.cmd("normal! zv") -- open just enough folds to reveal the match
             end,
             mode = "n",
             desc = "Search prev with highlight",

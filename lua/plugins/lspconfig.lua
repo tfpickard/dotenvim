@@ -8,46 +8,17 @@ end
 return {
 
     {
-        "WhoIsSethDaniel/mason-tool-installer.nvim",
-        opts = {
-            ensure_installed = {
-                -- formatters
-                "stylua",
-                "shfmt",
-                "biome",
-                "black",
-                "isort",
-                "ruff",
-                "mdformat",
-                "latexindent",
-                "taplo",
-                "yamlfix",
-                "rustfmt",
-
-                -- diagnostics / linters
-                "shellcheck",
-                "cmakelint",
-                "hadolint",
-                "eslint",
-                "jsonlint",
-                "luacheck",
-                "markdownlint",
-                "mypy",
-                "yamllint",
-            },
-        },
-        config = function(_, opts)
-            require("mason-tool-installer").setup(opts)
-        end,
-    },
-
-    {
 
         "neovim/nvim-lspconfig",
         ---@class PluginLspOpts
         opts = {
             ---@type vim.lsp.Config
             servers = {
+                -- Servers listed here are auto-installed by LazyVim via
+                -- mason-lspconfig (mason v2). Formatters/linters/DAPs go in
+                -- lua/plugins/mason.lua ensure_installed instead.
+                bashls = {},
+                html = {},
                 vtsls = {
                     settings = {
                         complete_function_calls = true,
@@ -71,14 +42,22 @@ return {
                     settings = {
                         python = {
                             analysis = {
-                                typeCheckingMode = "strict",
+                                -- "basic" keeps diagnostics useful without the
+                                -- wall of noise "strict" produces in most repos.
+                                -- Drop a pyrightconfig.json in a project to opt
+                                -- that project back into strict checking.
+                                typeCheckingMode = "basic",
                                 autoSearchPaths = true,
                                 useLibraryCodeForTypes = true,
                             },
                         },
                     },
                     keys = {
-                        { "<leader>rf", "<cmd>LspPyrightOrganizeImports<cr>", desc = "Organize Imports" },
+                        {
+                            "<leader>rf",
+                            "<cmd>LspPyrightOrganizeImports<cr>",
+                            desc = "Organize Imports",
+                        },
                         {
                             "<leader>rr",
                             function()
