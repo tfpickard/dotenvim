@@ -388,7 +388,10 @@ local ok, err = pcall(function()
 end)
 
 if not ok then
-    vim.fn.writefile({ "keymap-graph: " .. tostring(err) }, "/dev/stderr")
+    -- Strip the "path/to/script.lua:87: " prefix Lua prepends; the file and
+    -- line are noise for someone who just mistyped a flag.
+    local msg = tostring(err):gsub("^.-%.lua:%d+:%s*", "")
+    vim.fn.writefile({ "keymap-graph: " .. msg }, "/dev/stderr")
     vim.cmd("cquit 1")
 end
 vim.cmd("qa!")

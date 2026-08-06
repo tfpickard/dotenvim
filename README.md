@@ -36,6 +36,8 @@ Two conventions keep this config from rotting, both learned the hard way:
 - **Formatting** — `conform.nvim` on save, honouring each project's own
   indentation via `guess-indent` and any `.editorconfig`/formatter config.
 - **Autosave** — `auto-save.nvim`, debounced; toggle with `<leader>uW`.
+- **Theming** — follows the system-wide theme (see below) rather than pinning a
+  colorscheme, so nvim matches the rest of the desktop.
 - **Git** — lazygit + Snacks pickers, `diffview.nvim` for diffs and file history.
 - **Navigation** — Snacks picker, `oil.nvim` (`-` opens the parent directory as
   an editable buffer), harpoon, flash, aerial.
@@ -62,6 +64,48 @@ capability check:
 The environment *is* the policy: there's no toggle to forget, so a work machine
 is correct by default and a personal machine lights the extra tools up on its
 own. `<leader>aP` reports the effective state. No API keys live in this repo.
+
+## System theme integration
+
+The dotfiles repo drives a global theme switcher (`theme-set`) that flips the
+symlink `~/.config/themes/active -> <theme>/` and pokes every app to reload.
+nvim follows it.
+
+Rather than mapping theme names onto colorscheme plugins — only one of the five
+themes has a Neovim port, which would leave `aura`, `cyberdream`,
+`dreamcore-pastel` and `sgi` unthemed — [lua/util/theme.lua](lua/util/theme.lua)
+builds a colorscheme directly from the theme's `palette.json`. The schema is
+identical across every theme, so bespoke themes work with no per-theme plugin,
+no generated files, and nothing to keep in sync.
+
+| | |
+| --- | --- |
+| `:Theme` | re-read the active palette and reapply |
+| `theme-set <name>` | switch system-wide; running nvim instances update live |
+
+`theme-set` reaches each running editor through the socket nvim creates in
+`$XDG_RUNTIME_DIR`, so open buffers re-theme without a restart. If the palette
+is unreadable — fresh checkout, a machine without the dotfiles, a dangling
+symlink — nvim falls back to tokyonight rather than starting unthemed.
+
+## Keymap graph
+
+Multi-key mappings form a prefix tree. which-key shows one level at a time;
+[scripts/keymap-graph](scripts/keymap-graph) renders the whole tree at once as
+a Mermaid diagram, which is what you want when auditing for collisions or
+printing a cheatsheet.
+
+```sh
+scripts/keymap-graph                          # whole n-mode tree
+scripts/keymap-graph --prefix '<leader>g'     # just the git subtree
+scripts/keymap-graph --mode v --format md     # visual mode, fenced markdown
+scripts/keymap-graph --list-prefixes          # prefixes + child counts
+scripts/keymap-graph --out maps.mmd           # write to a file
+```
+
+Rounded nodes do something; square nodes are prefixes only. GitHub renders
+Mermaid natively, so `--format md` output can be pasted straight into a
+Markdown file.
 
 ## Key mappings
 
@@ -105,6 +149,11 @@ lua/config/
   keymaps.lua             custom maps + commented LazyVim reference
   autocmds.lua            cursor-crosshair highlight fallback
 lua/plugins/              one spec (or group) per file
+lua/util/
+  theme.lua               builds a colorscheme from the system palette
+scripts/
+  keymap-graph            wrapper: renders keymaps as a Mermaid graph
+  keymap-graph.lua        the generator itself
 ```
 
 ## Installation

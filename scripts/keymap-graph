@@ -29,6 +29,12 @@ for a in "$@"; do
     args+="${a// /$'\001'} "
 done
 
-KEYMAP_GRAPH_ARGS="$args" exec nvim --headless \
+# Neovim writes assorted startup chatter to stderr under --headless, so stderr
+# is filtered rather than discarded: dropping it entirely would swallow the
+# script's own error messages (and its exit status), leaving a bad argument
+# looking like an empty-but-successful run.
+KEYMAP_GRAPH_ARGS="$args" nvim --headless \
     -c "lua vim.defer_fn(function() dofile('$lua_script') end, 1200)" \
-    2>/dev/null
+    2> >(grep -a '^keymap-graph:' >&2)
+status=$?
+exit "$status"
