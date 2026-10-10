@@ -2,6 +2,7 @@
   "extras": [
     "lazyvim.plugins.extras.ai.copilot",
     "lazyvim.plugins.extras.ai.copilot-chat",
+    "lazyvim.plugins.extras.ai.sidekick",
     "lazyvim.plugins.extras.coding.blink",
     "lazyvim.plugins.extras.coding.luasnip",
     "lazyvim.plugins.extras.coding.yanky",
@@ -26,7 +27,6 @@
     "lazyvim.plugins.extras.lang.typescript",
     "lazyvim.plugins.extras.lang.yaml",
     "lazyvim.plugins.extras.ui.edgy",
-
     "lazyvim.plugins.extras.util.chezmoi",
     "lazyvim.plugins.extras.util.dot",
     "lazyvim.plugins.extras.util.gitui",

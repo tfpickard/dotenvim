@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# keymap-graph -- render Neovim's multi-key mappings as a Mermaid graph.
+#
+# Thin wrapper around scripts/keymap-graph.lua. It exists because the graph has
+# to be produced by a Neovim that has actually loaded your config: `nvim -l`
+# script mode never bootstraps lazy.nvim (46 maps, zero <leader> maps), while
+# `--headless` loads everything (345 maps). This hides that detail.
+#
+# Usage:
+#   keymap-graph                              # whole n-mode tree, Mermaid
+#   keymap-graph --prefix '<leader>g'         # just the git subtree
+#   keymap-graph --mode v --format md         # visual mode, fenced markdown
+#   keymap-graph --list-prefixes              # prefixes + child counts
+#   keymap-graph --out maps.mmd               # write to a file
+#
+# Render the result with any Mermaid tool, e.g.
+#   keymap-graph > maps.mmd && mmdc -i maps.mmd -o maps.svg
+# or paste it into a Markdown file on GitHub, which renders Mermaid natively.
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
+lua_script="$script_dir/keymap-graph.lua"
+
+# Arguments are passed through the environment: `--headless -c` offers no clean
+# argv channel. Spaces inside a single argument (e.g. --prefix '<leader> ') are
+# encoded as \1 so the Lua side can split on whitespace without losing them.
+args=""
+for a in "$@"; do
+    args+="${a// /$'\001'} "
+done
+
+# Neovim writes assorted startup chatter to stderr under --headless, so stderr
+# is filtered rather than discarded: dropping it entirely would swallow the
+# script's own error messages (and its exit status), leaving a bad argument
+# looking like an empty-but-successful run.
+KEYMAP_GRAPH_ARGS="$args" nvim --headless \
+    -c "lua vim.defer_fn(function() dofile('$lua_script') end, 1200)" \
+    2> >(grep -a '^keymap-graph:' >&2)
+status=$?
+exit "$status"

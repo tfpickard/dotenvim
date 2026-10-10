@@ -41,20 +41,29 @@ require("lazy").setup({
     install = { colorscheme = { "tokyonight", "habamax" } },
     checker = {
         enabled = true, -- check for plugin updates periodically
-        notify = false, -- notify on update
-    }, -- automatically check for plugin updates
+        notify = false, -- don't pop up on every update
+        frequency = 86400, -- once a day instead of every 3600s (default),
+        -- so startup isn't racing a git fetch for 77 plugins
+    },
+    change_detection = {
+        enabled = true,
+        notify = false, -- stop the "config changed" toast on every edit
+    },
     performance = {
         rtp = {
             -- disable some rtp plugins
+            -- matchit/matchparen are left ENABLED on purpose: disabling them
+            -- breaks % motion and bracket highlighting. netrw stays enabled
+            -- because plugins still shell out to it for `gx`-style opens.
             disabled_plugins = {
                 "gzip",
-                -- "matchit",
-                -- "matchparen",
-                -- "netrwPlugin",
                 "tarPlugin",
                 "tohtml",
                 "tutor",
                 "zipPlugin",
+                "rplugin", -- no remote (python/node) plugins in this config
+                -- NOT disabled: "editorconfig". formatting.lua and
+                -- smartcolumn both treat .editorconfig as authoritative.
             },
         },
     },

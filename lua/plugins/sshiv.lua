@@ -1,8 +1,6 @@
 -- lua/plugins/sshiv.lua
 return {
     "tfpickard/sshiv.nvim",
-    -- name = "sshiv",
-    -- dir = "/Users/tom/src/sshiv.nvim",
     config = function()
         require("sshiv").setup({
             -- SSH connection options

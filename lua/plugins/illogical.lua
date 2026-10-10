@@ -1,8 +1,7 @@
 return {
-	"tfpickard/illogical.nvim",
-	-- dir = "~/src/illogical.nvim/",
-	config = function()
-		require("illogical") -- Ensure the module is loaded
-	end,
+    "tfpickard/illogical.nvim",
+    event = "VeryLazy",
+    config = function()
+        require("illogical")
+    end,
 }
--- }

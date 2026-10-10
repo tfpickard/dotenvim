@@ -1,14 +1,39 @@
 return {
     "catgoose/nvim-colorizer.lua",
-    event = "BufReadPre",
-    opts = { -- set to setup table
-        filetypes = { "*" }, -- Filetype options.  Accepts table like `user_default_options`
-        buftypes = {}, -- Buftype options.  Accepts table like `user_default_options`
+    event = "LazyFile",
+    opts = {
+        -- Was `{ "*" }`, which attaches a colour parser to *every* buffer --
+        -- including logs, JSON dumps and other large files where it costs real
+        -- redraw time for no benefit. Limit it to filetypes where colour
+        -- literals actually appear, plus an explicit exclusion list.
+        filetypes = {
+            "css", "scss", "sass", "less", "stylus",
+            "html", "htmldjango", "javascript", "javascriptreact",
+            "typescript", "typescriptreact", "svelte", "vue", "astro",
+            "lua", "vim", "toml", "yaml", "json", "jsonc",
+            "conf", "config", "dosini", "sh", "bash", "zsh", "fish",
+            "tmux", "kitty", "i3config", "rasi", "xdefaults",
+            "!lazy", "!mason", "!help", "!checkhealth", "!snacks_picker_list",
+            -- Bare colour *names* ("blue", "tan", "gold") are only meaningful
+            -- in stylesheets/markup. Enabling them globally makes ordinary
+            -- identifiers light up in source code, so opt in per filetype.
+            css = { names = true },
+            scss = { names = true },
+            sass = { names = true },
+            less = { names = true },
+            html = { names = true },
+        },
+        -- Don't attach in scratch/terminal/prompt buffers.
+        buftypes = { "!prompt", "!nofile", "!terminal" },
         -- Boolean | List of usercommands to enable.  See User commands section.
         user_commands = true, -- Enable all or some usercommands
-        lazy_load = false, -- Lazily schedule buffer highlighting setup function
+        -- Schedule highlight setup instead of doing it inline on attach, so
+        -- opening a large file does not block on the first paint.
+        lazy_load = true,
         user_default_options = {
-            names = true, -- "Name" codes like Blue or red.  Added from `vim.api.nvim_get_color_map()`
+            -- Off by default; re-enabled per filetype above. Prevents words
+            -- like `tan`, `gold` and `orchid` being highlighted in code.
+            names = false,
             names_opts = { -- options for mutating/filtering names.
                 lowercase = true, -- name:lower(), highlight `blue` and `red`
                 camelcase = true, -- name, highlight `Blue` and `Red`
