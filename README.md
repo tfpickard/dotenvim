@@ -31,6 +31,13 @@ Two conventions keep this config from rotting, both learned the hard way:
   mode jumps to a suggestion, `<Tab>` again applies it.
 - **AI CLI** — `<leader>aa` opens an AI CLI in a split that shares buffer
   context. See the provider policy below.
+- **AI chat** — two chat windows, both on Copilot by default:
+  [codecompanion.nvim](https://github.com/olimorris/codecompanion.nvim)
+  (`<leader>A…`: chat buffer, inline assistant, agentic tools) reuses
+  copilot.lua's login, read from `github-copilot/auth.db` via `sqlite3`.
+  [CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim)
+  (`<leader>ac…`) can't read that file, so its first chat runs a one-time
+  GitHub device login.
 - **LSP** — mason-managed servers via LazyVim extras; `bashls`, `html`,
   `vtsls`, `pyright` configured locally.
 - **Formatting** — `conform.nvim` on save, honouring each project's own
@@ -64,6 +71,13 @@ capability check:
 The environment *is* the policy: there's no toggle to forget, so a work machine
 is correct by default and a personal machine lights the extra tools up on its
 own. `<leader>aP` reports the effective state. No API keys live in this repo.
+
+codecompanion applies the same rule from the same table
+([lua/util/ai_policy.lua](lua/util/ai_policy.lua)): `show_presets = false`
+leaves only `copilot` / `copilot_acp`, plus `anthropic` / `claude_code`,
+`openai` / `codex`, and `openrouter` / `opencode` when the matching key is
+set. Upstream presets added later stay hidden. CopilotChat only talks to
+Copilot.
 
 ## System theme integration
 
@@ -123,6 +137,8 @@ Additions and changes on top of LazyVim:
 | `<leader>wq` / `<leader>q!` | Save and quit all / force quit all |
 | `<C-q>` | Quit |
 | `<leader>a…` | AI (sidekick): `aa` toggle CLI, `as` select, `aP` policy |
+| `<leader>ac…` | CopilotChat: `aca` toggle, `acq` quick chat, `acp` prompts, `acx` clear |
+| `<leader>A…` | CodeCompanion: `At` toggle chat, `An` new chat, `Aa` actions, `Ai` inline, `As` add selection (visual) |
 | `<leader>E…` | Environment variables (ecolog) |
 | `<leader>H…` | HTTP requests (kulala) |
 | `<leader>R…` | Remote execution (sshiv) |
@@ -150,6 +166,7 @@ lua/config/
   autocmds.lua            cursor-crosshair highlight fallback
 lua/plugins/              one spec (or group) per file
 lua/util/
+  ai_policy.lua           AI provider policy shared by sidekick + codecompanion
   theme.lua               builds a colorscheme from the system palette
 scripts/
   keymap-graph            wrapper: renders keymaps as a Mermaid graph

@@ -21,6 +21,8 @@ return {
             { "<leader>i", group = "insert/pickers", icon = " " },
             { "<leader>k", group = "line surgery", icon = " " },
             { "<leader>r", group = "refactor/lsp", icon = " " },
+            { "<leader>A", group = "codecompanion", icon = "󰚩 ", mode = { "n", "x" } },
+            { "<leader>ac", group = "copilot chat", icon = " ", mode = { "n", "x" } },
             -- Extra members of groups LazyVim already defines
             { "<leader>cb", desc = "Comment box: title" },
             { "<leader>ct", desc = "Comment box: named part" },

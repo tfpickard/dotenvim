@@ -47,25 +47,11 @@
 -- through to a literal <Tab> when no suggestion is pending, so <C-i>
 -- jumplist-forward keeps working.
 
--- Direct-vendor CLIs and the environment variable that makes each usable.
--- Absent key => tool is filtered out of the picker.
-local direct_vendor_tools = {
-    claude = "ANTHROPIC_API_KEY",
-    codex = "OPENAI_API_KEY",
-    opencode = "OPENROUTER_API_KEY",
-}
-
----Tools that may be offered here: Copilot always, direct-vendor CLIs only
----when their API key is present in the environment.
----@return table<string, boolean>
-local function permitted_tools()
-    local ok = { copilot = true }
-    for tool, env in pairs(direct_vendor_tools) do
-        local key = vim.env[env]
-        ok[tool] = key ~= nil and key ~= ""
-    end
-    return ok
-end
+-- The tool -> API-key table and the check itself live in util/ai_policy.lua so
+-- codecompanion.nvim enforces exactly the same rule.
+local policy = require("util.ai_policy")
+local direct_vendor_tools = policy.direct_vendor_tools
+local permitted_tools = policy.permitted
 
 ---Pick from the tools that are BOTH permitted by policy and actually
 ---installed, then hand the choice to sidekick.
