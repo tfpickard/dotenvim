@@ -19,6 +19,22 @@ return {
                 -- lua/plugins/mason.lua ensure_installed instead.
                 bashls = {},
                 html = {},
+                jsonls = {
+                    settings = {
+                        json = {
+                            -- jsonls hard-codes trailing commas in jsonc as a
+                            -- warning unless the matched schema opts in, which
+                            -- is how VS Code's own settings.json allows them.
+                            -- LazyVim's before_init appends SchemaStore's
+                            -- schemas to this list; the server combines
+                            -- multiple matches with allOf and honours the flag
+                            -- from any of them.
+                            schemas = {
+                                { fileMatch = { "*.jsonc" }, schema = { allowTrailingCommas = true } },
+                            },
+                        },
+                    },
+                },
                 vtsls = {
                     settings = {
                         complete_function_calls = true,
